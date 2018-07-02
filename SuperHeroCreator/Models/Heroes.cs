@@ -6,8 +6,8 @@ using System.Web;
 
 namespace SuperHeroCreator.Models
 {
-    public class Hero
-    {
+    public class Heroes
+s    {
         [Key]
         public int ID { get; set; }
         public string HeroName { get; set; }
