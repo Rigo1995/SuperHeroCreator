@@ -13,7 +13,8 @@ namespace SuperHeroCreator.Controllers
         // GET: SuperHero
         public ActionResult Index()
         {
-            return View();
+            var heroes = db.Heroes.ToList();
+            return View(heroes);
         }
 
         // Create GET
@@ -25,18 +26,28 @@ namespace SuperHeroCreator.Controllers
         //CREATE POST Action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include ="ID,HeroName,AlterEgo,PrimaryAblility,SecondaryAbility,Catchphrase")] Hero hero)
+        public ActionResult Create([Bind(Include ="ID,HeroName,AlterEgo,PrimaryAblility,SecondaryAbility,Catchphrase")] Heroes heroes)
         {
             if (ModelState.IsValid)
             {
-                db.Heroes.Add(hero);
+                db.Heroes.Add(heroes);
                 db.SaveChanges();
-                return RedirectToAction("index");
+                return RedirectToAction("Index");
             }
-            ViewBag.personID = new SelectList(db.Heroes, "ID", "HeroName", "AlterEgo", "PrimaryAbility", "Catchphrase", hero);
-            return View(hero);
+
+            return View(heroes);
+            //ViewBag.HeroName = new SelectList(db.Heroes, "ID", "HeroName", "AlterEgo", "PrimaryAbility", "Catchphrase", heroes.HeroName);
+
             //Hero superman = new Hero();
             //add superhero to db here with LINQ
         }
+
+        ////EDIT POST Action
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(Include = "ID,HeroName,AlterEgo,PrimaryAblility,SecondaryAbility,Catchphrase")
+        //{
+        //    if ()
+        //}
     }
 }

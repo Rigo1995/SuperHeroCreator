@@ -206,6 +206,10 @@
     <Compile Include="Migrations\201807021645215_Hero.Designer.cs">
       <DependentUpon>201807021645215_Hero.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807031355468_RemoveApplication.cs" />
+    <Compile Include="Migrations\201807031355468_RemoveApplication.Designer.cs">
+      <DependentUpon>201807031355468_RemoveApplication.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Heroes.cs" />
@@ -274,6 +278,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\SuperHero\Create.cshtml" />
+    <Content Include="Views\SuperHero\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -294,6 +299,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201807021645215_Hero.resx">
       <DependentUpon>201807021645215_Hero.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807031355468_RemoveApplication.resx">
+      <DependentUpon>201807031355468_RemoveApplication.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
