@@ -1,6 +1,7 @@
 ﻿using SuperHeroCreator.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -36,24 +37,34 @@ namespace SuperHeroCreator.Controllers
             }
 
             return View(heroes);
-            //ViewBag.HeroName = new SelectList(db.Heroes, "ID", "HeroName", "AlterEgo", "PrimaryAbility", "Catchphrase", heroes.HeroName);
-
-            //Hero superman = new Hero();
-            //add superhero to db here with LINQ
+            
+        }
+        public ActionResult Edit(int id)
+        {
+            db.Heroes.ToList();
+            return View();
         }
 
         //EDIT POST Action
-        [HttpPost, ActionName("Edit")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPost(Heroes heroes)
+        public ActionResult Edit([Bind(Include = "ID,HeroName,AlterEgo,PrimaryAblility,SecondaryAbility,Catchphrase")] Heroes heroes)
         {
-            if (ModelState.IsValid)
+            try 
             {
-
-
+                if (ModelState.IsValid)
+                {
+                    db.Entry(heroes).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
-             return  View(heroes);
+             catch(DataMisalignedException /*dex */)
+            {
+                ModelState.AddModelError("", "No!.");
+            }
+            return View(heroes);
         }
     }
 }
