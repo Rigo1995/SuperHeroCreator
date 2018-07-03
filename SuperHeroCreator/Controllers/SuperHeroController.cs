@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -27,7 +28,7 @@ namespace SuperHeroCreator.Controllers
         //CREATE POST Action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include ="ID,HeroName,AlterEgo,PrimaryAblility,SecondaryAbility,Catchphrase")] Heroes heroes)
+        public ActionResult Create([Bind(Include = "ID,HeroName,AlterEgo,PrimaryAbility,SecondaryAbility,Catchphrase")] Heroes heroes)
         {
             if (ModelState.IsValid)
             {
@@ -39,32 +40,46 @@ namespace SuperHeroCreator.Controllers
             return View(heroes);
             
         }
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            db.Heroes.ToList();
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Heroes heroes = db.Heroes.Find(id);
+            if (heroes == null)
+            {
+                return HttpNotFound();
+            }
+
+            //LINQ querty that selects the id I passed in the parameter
+            // pass that query to the view ()
+            return View(heroes);
         }
 
         //EDIT POST Action
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,HeroName,AlterEgo,PrimaryAblility,SecondaryAbility,Catchphrase")] Heroes heroes)
+        public ActionResult Edit([Bind(Include = "ID,HeroName,AlterEgo,PrimaryAbility,SecondaryAbility,Catchphrase")] Heroes heroes)
         {
-            try 
+           if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(heroes).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+                db.Entry(heroes).State = EntityState.Modified;
+                db.SaveChanges();
             }
+            return RedirectToAction("Index");            
+        }
 
-             catch(DataMisalignedException /*dex */)
+        public ActionResult Details(int id = 0)
+        {
+            Heroes heroes = db.Heroes.Find(id);
+            if (heroes == null)
             {
-                ModelState.AddModelError("", "No!.");
+                return HttpNotFound();
             }
             return View(heroes);
         }
+
+
     }
 }
