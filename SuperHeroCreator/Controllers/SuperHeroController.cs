@@ -42,12 +42,18 @@ namespace SuperHeroCreator.Controllers
             //add superhero to db here with LINQ
         }
 
-        ////EDIT POST Action
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(Include = "ID,HeroName,AlterEgo,PrimaryAblility,SecondaryAbility,Catchphrase")
-        //{
-        //    if ()
-        //}
+        //EDIT POST Action
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPost(Heroes heroes)
+        {
+            if (ModelState.IsValid)
+            {
+
+
+            }
+
+             return  View(heroes);
+        }
     }
 }
