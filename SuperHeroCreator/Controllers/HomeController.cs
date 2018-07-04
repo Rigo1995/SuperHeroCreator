@@ -10,7 +10,7 @@ namespace SuperHeroCreator.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "SuperHero");  // This is where you come to redirect to the page you want! *****************************************************************
         }
 
         public ActionResult About()

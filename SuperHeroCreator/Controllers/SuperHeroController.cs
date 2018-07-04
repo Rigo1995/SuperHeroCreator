@@ -1,6 +1,7 @@
 ﻿using SuperHeroCreator.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -40,6 +41,7 @@ namespace SuperHeroCreator.Controllers
             return View(heroes);
             
         }
+        //get
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -70,8 +72,13 @@ namespace SuperHeroCreator.Controllers
             return RedirectToAction("Index");            
         }
 
-        public ActionResult Details(int id = 0)
+        //get 
+        public ActionResult Delete(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Heroes heroes = db.Heroes.Find(id);
             if (heroes == null)
             {
@@ -80,6 +87,23 @@ namespace SuperHeroCreator.Controllers
             return View(heroes);
         }
 
-
+        //DELETE post action
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                Heroes heroes = db.Heroes.Find(id);
+                db.Heroes.Remove(heroes);
+                db.SaveChanges();
+            }
+            catch (DataException/* dex */)
+            {
+                // uncomment dex and log error. 
+                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
