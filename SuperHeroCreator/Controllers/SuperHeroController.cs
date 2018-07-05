@@ -105,5 +105,12 @@ namespace SuperHeroCreator.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        //edit
+        public ActionResult Details(int id)
+        {
+            var heroes = db.Heroes.Find(id);
+            return View(heroes);
+        }
     }
 }
